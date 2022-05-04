@@ -19,6 +19,7 @@ namespace DiscordBotSB
                 .AddSingleton<IApiService, ApiService>()
                 .AddSingleton<ITextService, TextService>()
                 .AddSingleton<IDiscordInteractivityService, DiscordInteractivityService>()
+                .AddSingleton<IWatchlistService, WatchlistService>()
                 .BuildServiceProvider();
 
             await DiscordConfig.Setup(serviceProvider);

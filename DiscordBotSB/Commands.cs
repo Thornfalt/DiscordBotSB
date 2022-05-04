@@ -10,12 +10,14 @@ namespace DiscordBotSB
         private readonly IApiService _apiService;
         private readonly ITextService _textService;
         private readonly IDiscordInteractivityService _discordInteractivityService;
+        private readonly IWatchlistService _watchlistService;
 
-        public Commands(IApiService apiService, ITextService textService, IDiscordInteractivityService discordInteractivityService)
+        public Commands(IApiService apiService, ITextService textService, IDiscordInteractivityService discordInteractivityService, IWatchlistService watchlistService)
         {
             _apiService = apiService;
             _textService = textService;
             _discordInteractivityService = discordInteractivityService;
+            _watchlistService = watchlistService;
         }
 
         [Command("hi")]
@@ -36,6 +38,14 @@ namespace DiscordBotSB
         {
             var searchResult = await _apiService.GetSearchRequestAsync(input);
             await _discordInteractivityService.CreateInteractiveSearchMenu(ctx, searchResult);
+        }
+
+        [Command("add")]
+        public async Task AddToWatchListCommand(CommandContext ctx, [RemainingText] string input)
+        {
+            var game = await _apiService.GetByBoardGameGeekIdRequestAsync(input);
+            var result = _watchlistService.AddToWatchlist(ctx, game);
+            await ctx.RespondAsync(result);
         }
     }
 }
