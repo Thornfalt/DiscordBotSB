@@ -14,10 +14,7 @@ namespace DiscordBotSB
 {
     public static class DiscordConfig
     {
-        static DiscordClient discord;
-        static CommandsNextExtension commands;
-
-        public static async Task Setup(ServiceProvider services)
+        public static (DiscordClient, CommandsNextExtension) Setup(ServiceProvider services, DiscordClient discord, CommandsNextExtension commands)
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -51,9 +48,7 @@ namespace DiscordBotSB
                 Services = services
             });
 
-            commands.RegisterCommands<Commands>();
-
-            await discord.ConnectAsync();
+            return (discord, commands);
         }
     }
 }

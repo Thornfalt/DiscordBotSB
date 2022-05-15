@@ -1,4 +1,5 @@
 ﻿using DiscordBotSB.Models;
+using DSharpPlus;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace DiscordBotSB.Services
 {
     public interface INotificationService
     {
-        void NotifyUsers(Watchlist watchlist);
+        Task NotifyUsersAsync(DiscordClient discord);
     }
 }

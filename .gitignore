@@ -58,3 +58,7 @@
 /.vs/DiscordBotSB/DesignTimeBuild/.dtbcache.v2
 /.vs/DiscordBotSB/DesignTimeBuild
 /.vs/DiscordBotSB
+/ApiTests/obj
+/ApiTests/bin/Debug/netcoreapp3.1/zh-Hant
+/ApiTests/bin/Debug/netcoreapp3.1/cs
+/ApiTests/bin/Debug/netcoreapp3.1

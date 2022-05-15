@@ -3,6 +3,7 @@ using DSharpPlus.CommandsNext;
 using LiteDB;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace DiscordBotSB.Services.Implementations
 {
@@ -22,16 +23,15 @@ namespace DiscordBotSB.Services.Implementations
                     DiscordUserId = ctx.User.Id
                 };
 
-                // TODO : FIX THIS
-                if (col.Exists(x => x == watchList))
+                //Uncomment code for debugging results
+                //var results = col.FindAll().ToList();
+
+                if (col.Exists(x => x.BoardgameId == watchList.BoardgameId && x.DiscordUserId == watchList.DiscordUserId))
                 {
                     return $"{game.Items[0].Name} already exists in your watchlist";
                 }
 
                 col.Insert(watchList);
-
-                // Uncomment code for debugging results
-                //var results = col.Find(x => x.DiscordUserId == ctx.User.Id).ToList();
 
                 return $"Successfully added {game.Items[0].Name} to your watchlist";
             }
