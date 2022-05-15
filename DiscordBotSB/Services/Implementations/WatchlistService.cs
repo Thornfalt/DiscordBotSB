@@ -22,6 +22,7 @@ namespace DiscordBotSB.Services.Implementations
                     DiscordUserId = ctx.User.Id
                 };
 
+                // TODO : FIX THIS
                 if (col.Exists(x => x == watchList))
                 {
                     return $"{game.Items[0].Name} already exists in your watchlist";
