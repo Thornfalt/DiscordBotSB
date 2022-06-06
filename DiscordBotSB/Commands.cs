@@ -43,8 +43,8 @@ namespace DiscordBotSB
         [Command("add")]
         public async Task AddToWatchListCommand(CommandContext ctx, [RemainingText] string input)
         {
-            var game = await _apiService.GetByBoardGameGeekIdRequestAsync(input);
-            var result = _watchlistService.AddToWatchlist(ctx, game);
+            var boardgame = await _apiService.GetByBoardGameGeekIdRequestAsync(input);
+            var result = _watchlistService.AddToWatchlist(ctx, boardgame);
             await ctx.RespondAsync(result);
         }
     }

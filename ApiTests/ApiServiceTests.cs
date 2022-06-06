@@ -1,12 +1,6 @@
-using DiscordBotSB.Models;
-using DiscordBotSB.Services;
 using DiscordBotSB.Services.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ApiTests
@@ -24,7 +18,7 @@ namespace ApiTests
             // Act
             var game = await apiService.GetByBoardGameGeekIdRequestAsync(BOARDGAMEGEEK_ID);
             // Assert
-            Assert.IsTrue(game != null && game.Items?.Count == 1);
+            Assert.IsTrue(game != null && game.ExternalId == BOARDGAMEGEEK_ID);
         }
 
         [TestMethod]
@@ -34,7 +28,7 @@ namespace ApiTests
 
             var game = await apiService.GetByIdApiRequestAsync(GAME_ID);
 
-            Assert.IsTrue(game != null && game.Items?.Count == 1);
+            Assert.IsTrue(game != null && game.Id == GAME_ID);
         }
 
         [TestMethod]

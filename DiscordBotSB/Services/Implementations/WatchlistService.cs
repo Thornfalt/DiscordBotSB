@@ -19,7 +19,7 @@ namespace DiscordBotSB.Services.Implementations
 
                 var watchList = new Watchlist()
                 {
-                    BoardgameId = game.Items[0].Id,
+                    BoardgameId = game.Id,
                     DiscordUserId = ctx.User.Id
                 };
 
@@ -28,12 +28,12 @@ namespace DiscordBotSB.Services.Implementations
 
                 if (col.Exists(x => x.BoardgameId == watchList.BoardgameId && x.DiscordUserId == watchList.DiscordUserId))
                 {
-                    return $"{game.Items[0].Name} already exists in your watchlist";
+                    return $"{game.Name} already exists in your watchlist";
                 }
 
                 col.Insert(watchList);
 
-                return $"Successfully added {game.Items[0].Name} to your watchlist";
+                return $"Successfully added {game.Name} to your watchlist";
             }
         }
     }

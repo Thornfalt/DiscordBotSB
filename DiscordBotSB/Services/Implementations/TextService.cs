@@ -1,4 +1,5 @@
 ﻿using DiscordBotSB.Models;
+using DiscordBotSB.Helpers;
 using System.Linq;
 using System.Text;
 
@@ -8,17 +9,14 @@ namespace DiscordBotSB.Services.Implementations
     {
         public string CreateStoreInformationText(Boardgame boardgame)
         {
-            var prices = boardgame.Items
-                .Select(x => x.Prices
-                .OrderBy(x => x.Price))
-                .FirstOrDefault();
+            boardgame = boardgame.FilterBoardgameByInStock();
 
-            if (prices.Any(x => x.Stock == "Y"))
+            if (boardgame.HasBoardgameInStock())
             {
                 var stringBuilder = new StringBuilder();
-                var stockedStores = prices.Where(x => x.Stock == "Y").ToList();
+                var stockedStores = boardgame.Prices.Where(x => x.Stock == "Y").ToList();
 
-                stringBuilder.AppendLine(boardgame.Items[0].Name);
+                stringBuilder.AppendLine(boardgame.Name);
 
                 foreach (var stockedStore in stockedStores)
                 {

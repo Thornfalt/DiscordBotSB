@@ -1,10 +1,6 @@
 ﻿using DiscordBotSB.Models;
-using DiscordBotSB.Services;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordBotSB.Services.Implementations
@@ -16,23 +12,23 @@ namespace DiscordBotSB.Services.Implementations
         public async Task<Boardgame> GetByBoardGameGeekIdRequestAsync(string id)
         {
             var stringTask = await client.GetStringAsync($"https://bradspelspriser.se/api/info?eid={id}");
-            Boardgame boardgame = JsonConvert.DeserializeObject<Boardgame>(stringTask);
+            BoardgameResultObject boardgame = JsonConvert.DeserializeObject<BoardgameResultObject>(stringTask);
 
-            return boardgame;
+            return boardgame.Boardgame;
         }
 
         public async Task<Boardgame> GetByIdApiRequestAsync(string id)
         {
             var stringTask = await client.GetStringAsync($"https://bradspelspriser.se/api/info?id={id}");
-            Boardgame boardgame = JsonConvert.DeserializeObject<Boardgame>(stringTask);
+            BoardgameResultObject boardgame = JsonConvert.DeserializeObject<BoardgameResultObject>(stringTask);
 
-            return boardgame;
+            return boardgame.Boardgame;
         }
 
-        public async Task<Boardgame> GetSearchRequestAsync(string input)
+        public async Task<SearchResultObject> GetSearchRequestAsync(string input)
         {
             var stringTask = await client.GetStringAsync($"https://bradspelspriser.se/api/search?search={input}");
-            Boardgame boardgames = JsonConvert.DeserializeObject<Boardgame>(stringTask);
+            SearchResultObject boardgames = JsonConvert.DeserializeObject<SearchResultObject>(stringTask);
 
             return boardgames;
         }

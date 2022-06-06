@@ -7,6 +7,6 @@ namespace DiscordBotSB.Services
     {
         Task<Boardgame> GetByBoardGameGeekIdRequestAsync(string id);
         Task<Boardgame> GetByIdApiRequestAsync(string id);
-        Task<Boardgame> GetSearchRequestAsync(string input);
+        Task<SearchResultObject> GetSearchRequestAsync(string input);
     }
 }

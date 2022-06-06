@@ -6,6 +6,6 @@ namespace DiscordBotSB.Services
 {
     public interface IDiscordInteractivityService
     {
-        Task CreateInteractiveSearchMenu(CommandContext ctx, Boardgame boardgame);
+        Task CreateInteractiveSearchMenu(CommandContext ctx, SearchResultObject boardgame);
     }
 }

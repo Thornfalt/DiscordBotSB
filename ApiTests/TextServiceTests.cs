@@ -13,20 +13,14 @@ namespace DiscordBotSBTests
         public Boardgame boardgameInStock =
             new Boardgame
             {
-                Items = new List<Items>
+                Id = "139030",
+                Name = "Mascarade",
+                Prices = new List<Price>
                 {
-                    new Items
+                    new Price
                     {
-                        Id = "139030",
-                        Name = "Mascarade",
-                        Prices = new List<Prices>
-                        {
-                            new Prices
-                            {
-                                Stock = "Y",
-                                Country = "GB"
-                            }
-                        }
+                        Stock = "Y",
+                        Country = "GB"
                     }
                 }
             };
@@ -34,20 +28,14 @@ namespace DiscordBotSBTests
         public Boardgame boardgameOutOfStock =
             new Boardgame
             {
-                Items = new List<Items>
+                Id = "316554",
+                Name = "Dune: Imperium",
+                Prices = new List<Price>
                 {
-                    new Items
+                    new Price
                     {
-                        Id = "316554",
-                        Name = "Dune: Imperium",
-                        Prices = new List<Prices>
-                        {
-                            new Prices
-                            {
-                                Stock = "N",
-                                Country = "US"
-                            }
-                        }
+                        Stock = "N",
+                        Country = "US"
                     }
                 }
             };

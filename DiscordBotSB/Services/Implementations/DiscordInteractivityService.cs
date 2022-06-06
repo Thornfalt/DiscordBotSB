@@ -1,4 +1,5 @@
-﻿using DiscordBotSB.Models;
+﻿using DiscordBotSB.Helpers;
+using DiscordBotSB.Models;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
@@ -18,11 +19,11 @@ namespace DiscordBotSB.Services.Implementations
             _textService = textService;
         }
 
-        public async Task CreateInteractiveSearchMenu(CommandContext ctx, Boardgame boardgame)
+        public async Task CreateInteractiveSearchMenu(CommandContext ctx, SearchResultObject boardgame)
         {
             var options = new List<DiscordSelectComponentOption>();
 
-            foreach (var item in boardgame.Items)
+            foreach (var item in boardgame.Items.FilterBoardgamesOnLanguage())
             {
                 options.Add(new DiscordSelectComponentOption(item.Name, item.Id));
             }

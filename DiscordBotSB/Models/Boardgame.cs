@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace DiscordBotSB.Models
 {
     public class Boardgame
-    {
-        [JsonProperty(PropertyName = "items")]
-        public List<Items> Items { get; set; }
-    }
-
-    public class Items
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -18,25 +14,21 @@ namespace DiscordBotSB.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "prices")]
-        public List<Prices> Prices { get; set; }
-    }
-
-    public class Prices
-    {
-        [JsonProperty(PropertyName = "price")]
-        public decimal Price { get; set; }
-
-        [JsonProperty(PropertyName = "stock")]
-        public string Stock { get; set; }
-
         [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
 
-        [JsonProperty(PropertyName = "link")]
-        public string Link { get; set; }
+        [JsonProperty(PropertyName = "image")]
+        public string Image { get; set; }
 
-        [JsonProperty(PropertyName = "country")]
-        public string Country { get; set; }
+        [JsonProperty(PropertyName = "thumbnail")]
+        public string Thumbnail { get; set; }
+
+        [JsonProperty(PropertyName = "external_id")]
+        public string ExternalId { get; set; }
+
+        [JsonProperty(PropertyName = "prices")]
+        public List<Price> Prices { get; set; }
+
+        public bool HasBoardgameInStock() => Prices.Any(x => x.Stock == "Y");
     }
 }

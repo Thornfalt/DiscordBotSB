@@ -1,4 +1,5 @@
 ﻿using DiscordBotSB.Models;
+using DiscordBotSB.Helpers;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using LiteDB;
@@ -27,41 +28,47 @@ namespace DiscordBotSB.Services.Implementations
 
         public async Task NotifyUsersAsync(DiscordClient discord)
         {
-            List<Watchlist> listOfGames = new List<Watchlist>();
-            var guild = await discord.GetGuildAsync(GUILD_ID);
+            var watchlists = GetWatchlists();
+            await NotifyUsers(discord, watchlists);
+        }
 
-            var member = await guild.GetMemberAsync(369871247380578315);
+        private List<Watchlist> GetWatchlists()
+        {
+            var watchlists = new List<Watchlist>();
 
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
             using (var db = new LiteDatabase(projectDirectory + "\\MyDB.db"))
             {
                 var collection = db.GetCollection<Watchlist>("watchlist");
-                listOfGames = collection.Find(x => x.DiscordUserId == MEMBER_ID).ToList();
+                watchlists.AddRange(collection.FindAll().ToList());
             }
 
-            var boardgames = await Task.WhenAll(listOfGames.Select(async x => await _apiService.GetByIdApiRequestAsync(x.BoardgameId)));
-
-            var gamesInStock = GetBoardgamesInStock(boardgames);
-
-            if (gamesInStock.Any())
-            {
-                // TODO : Implement better text message using ITextService
-                await member.SendMessageAsync("Testing that games are in stock");
-            }
-            
+            return watchlists;
         }
 
-        private Boardgame[] GetBoardgamesInStock(Boardgame[] boardgames)
+        private async Task NotifyUsers(DiscordClient discord, List<Watchlist> watchlists)
         {
-            // It works but it hurts my eyes to look at
-            return boardgames
-                .Where(x => x.Items
-                    .Where(x => x.Prices
-                        .Where(x => x.Stock == "Y")
-                        .Any())
-                    .Any())
-                .ToArray();
+            // Test stuff
+            var test = discord.Guilds;
+            var guild = await discord.GetGuildAsync(GUILD_ID);
+
+            foreach (var distinctUserId in watchlists.Select(x => x.DiscordUserId).Distinct())
+            {
+                var member = await guild.GetMemberAsync(distinctUserId);
+                var memberWatchlists = watchlists.Where(x => x.DiscordUserId == member.Id);
+
+                var boardgames = await Task.WhenAll(memberWatchlists.Select(async x => await _apiService.GetByIdApiRequestAsync(x.BoardgameId)));
+
+                if (boardgames.Any(x => x.HasBoardgameInStock()))
+                {
+                    var gamesInStock = boardgames.Select(x => x.FilterBoardgameByInStock()).ToList();
+                    // TODO : Write the games in stock, and which stores that has the games in stock.
+
+                    // TODO : Implement better text message using ITextService
+                    await member.SendMessageAsync("Testing that games are in stock");
+                }
+            }
         }
     }
 }
