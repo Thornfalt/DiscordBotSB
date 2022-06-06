@@ -15,7 +15,6 @@ namespace DiscordBotSB.Services.Implementations
     public class NotificationService : INotificationService
     {
         const ulong GUILD_ID = 608612282863190026;
-        const ulong MEMBER_ID = 369871247380578315;
 
         private readonly IApiService _apiService;
         private readonly ITextService _textService;
@@ -41,6 +40,7 @@ namespace DiscordBotSB.Services.Implementations
             using (var db = new LiteDatabase(projectDirectory + "\\MyDB.db"))
             {
                 var collection = db.GetCollection<Watchlist>("watchlist");
+                collection.EnsureIndex("watchlist");
                 watchlists.AddRange(collection.FindAll().ToList());
             }
 

@@ -41,10 +41,25 @@ namespace DiscordBotSB
         }
 
         [Command("add")]
-        public async Task AddToWatchListCommand(CommandContext ctx, [RemainingText] string input)
+        public async Task AddToWatchlistCommand(CommandContext ctx, [RemainingText] string input)
         {
             var boardgame = await _apiService.GetByBoardGameGeekIdRequestAsync(input);
             var result = _watchlistService.AddToWatchlist(ctx, boardgame);
+            await ctx.RespondAsync(result);
+        }
+
+        [Command("remove")]
+        public async Task RemoveFromWatchlistCommand(CommandContext ctx, [RemainingText] string input)
+        {
+            var boardgame = await _apiService.GetByBoardGameGeekIdRequestAsync(input);
+            var result = _watchlistService.RemoveFromWatchlist(ctx, boardgame);
+            await ctx.RespondAsync(result);
+        }
+
+        [Command("list")]
+        public async Task ListBoardgamesInWatchlistCommand(CommandContext ctx)
+        {
+            var result = await _watchlistService.PrintUserBoardgamesFromWatchlist(ctx);
             await ctx.RespondAsync(result);
         }
     }
