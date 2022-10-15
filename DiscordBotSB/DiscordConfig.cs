@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DiscordBotSB
 {
@@ -32,7 +31,7 @@ namespace DiscordBotSB
                 Token = apiToken,
                 TokenType = TokenType.Bot,
                 MinimumLogLevel = LogLevel.Debug,
-                Intents = DiscordIntents.AllUnprivileged
+                Intents = DiscordIntents.All
             });
 
             discord.UseInteractivity(new InteractivityConfiguration()

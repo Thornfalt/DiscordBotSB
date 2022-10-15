@@ -1,13 +1,8 @@
-﻿using DiscordBotSB.Models;
-using DiscordBotSB.Services;
+﻿using DiscordBotSB.Services;
 using DiscordBotSB.Services.Implementations;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiscordBotSB

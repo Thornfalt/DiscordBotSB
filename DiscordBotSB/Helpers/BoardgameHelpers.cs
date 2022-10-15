@@ -57,7 +57,7 @@ namespace DiscordBotSB.Helpers
         /// <summary>
         /// Removes all stores that are not located in user configured countries
         /// </summary>
-        public static Boardgame FilterBoardgameByStoreLocation(Boardgame boardgame)
+        public static Boardgame FilterBoardgameByStoreLocation(this Boardgame boardgame)
         {
             string[] accpetedStores = { STORE_SWEDEN, STORE_NORWAY, STORE_FINLAND, STORE_DENMARK };
 

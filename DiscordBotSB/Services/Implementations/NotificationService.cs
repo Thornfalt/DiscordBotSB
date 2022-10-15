@@ -1,7 +1,6 @@
-﻿using DiscordBotSB.Models;
-using DiscordBotSB.Helpers;
+﻿using DiscordBotSB.Helpers;
+using DiscordBotSB.Models;
 using DSharpPlus;
-using DSharpPlus.Entities;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -34,7 +33,7 @@ namespace DiscordBotSB.Services.Implementations
         private List<Watchlist> GetWatchlists()
         {
             var watchlists = new List<Watchlist>();
-
+            
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
             using (var db = new LiteDatabase(projectDirectory + "\\MyDB.db"))
@@ -55,6 +54,8 @@ namespace DiscordBotSB.Services.Implementations
 
             foreach (var distinctUserId in watchlists.Select(x => x.DiscordUserId).Distinct())
             {
+                string message = "Game : {0} is in stock at {1}";
+                var stringBuilder = new StringBuilder();
                 var member = await guild.GetMemberAsync(distinctUserId);
                 var memberWatchlists = watchlists.Where(x => x.DiscordUserId == member.Id);
 
@@ -62,13 +63,25 @@ namespace DiscordBotSB.Services.Implementations
 
                 if (boardgames.Any(x => x.HasBoardgameInStock()))
                 {
-                    var gamesInStock = boardgames.Select(x => x.FilterBoardgameByInStock()).ToList();
-                    // TODO : Write the games in stock, and which stores that has the games in stock.
-
-                    // TODO : Implement better text message using ITextService
-                    await member.SendMessageAsync("Testing that games are in stock");
+                    var gamesInStock = FilterBoardgamesOnUserSettings(boardgames);
+                    if (gamesInStock.Any())
+                    {
+                        foreach (var game in gamesInStock)
+                        {
+                            stringBuilder.AppendLine(string.Format(message, game.Name, game.Url));
+                        }
+                        await member.SendMessageAsync(stringBuilder.ToString());
+                    }
                 }
             }
+        }
+
+        private List<Boardgame> FilterBoardgamesOnUserSettings(Boardgame[] boardgames)
+        {
+            var gamesInStock = boardgames.Select(x => x.FilterBoardgameByInStock());
+            gamesInStock = gamesInStock.Select(x => x.FilterBoardgameByStoreLocation());
+
+            return gamesInStock.Where(x => x.Prices.Any()).ToList();
         }
     }
 }

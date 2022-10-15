@@ -40,6 +40,7 @@ namespace DiscordBotSB.Services.Implementations
 
                 var boardgameValues = await _apiService.GetByIdApiRequestAsync(e.Values.GetValue(0) as string);
                 // TODO : IMPROVE THIS!
+                boardgameValues = boardgameValues.FilterBoardgameByStoreLocation();
                 var responseText = _textService.CreateStoreInformationText(boardgameValues);
                 await e.Channel.SendMessageAsync(responseText);
             };
