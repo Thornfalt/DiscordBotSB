@@ -26,7 +26,7 @@ namespace DiscordBotSB.Services.Implementations
                 return stringBuilder.ToString();
             }
 
-            return "Out of stock";
+            return "Out of stock,\nDo you want to add it to your watchlist?";
         }
     }
 }

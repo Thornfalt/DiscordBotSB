@@ -22,6 +22,11 @@ namespace DiscordBotSB.Services.Implementations
 
         public string AddToWatchlist(CommandContext ctx, Boardgame game)
         {
+            if (game == null)
+            {
+                throw new ArgumentException("Game cannot be null");
+            }
+
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
             using (var db = new LiteDatabase(projectDirectory + "\\MyDB.db"))
